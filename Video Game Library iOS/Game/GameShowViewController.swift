@@ -9,21 +9,28 @@
 import UIKit
 
 class GameShowViewController: UIViewController {
-    //Sent by the initial view controller.
     var gameToShow: Game?
+    //MUST BE MODIFIED TO ACCESS MAIN LIST WHEN PERSISTANCE IS ADDED.
+    
     @IBOutlet var titleField: UITextField!
     @IBOutlet var genraField: UITextField!
     @IBOutlet var ratingField: UITextField!
     @IBOutlet var statusField: UITextField!
     @IBOutlet var descriptionField: UITextView!
+    @IBOutlet var checkInOut: UIButton!
+    
+    let format = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        format.dateStyle = .medium
+        
         titleField.text = gameToShow?.title
         genraField.text = gameToShow?.genra
         ratingField.text = gameToShow?.rating.rawValue
         if gameToShow?.status == Game.Status.checkedOut {
-        statusField.text = "\(gameToShow?.status.rawValue ?? "Something is wrong.") \(gameToShow?.dueDate ?? Date())"
+            statusField.text = "\(gameToShow?.status.rawValue ?? "") - Due: \(format.string(from: (gameToShow?.dueDate)!))"
+            checkInOut.setTitle("Check In", for: .normal)
         } else {
             statusField.text = gameToShow?.status.rawValue
         }
@@ -34,15 +41,18 @@ class GameShowViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func checkInOut(_ sender: UIButton) {
+        //MUST BE UPDATED WHEN PERSISTANCE IS ADDED
+        if gameToShow?.status == .checkedIn {
+            gameToShow?.status = .checkedOut
+            gameToShow?.dueDate = Date().addingTimeInterval(1209600)
+            sender.setTitle("Check In", for: .normal)
+            statusField.text = "\(gameToShow?.status.rawValue ?? "") - Due:  \(format.string(from: (gameToShow?.dueDate)!))"
+        } else {
+            gameToShow?.status = .checkedIn
+            gameToShow?.dueDate = nil
+            sender.setTitle("Check Out", for: .normal)
+            statusField.text = gameToShow?.status.rawValue
+        }
     }
-    */
-
 }

@@ -13,7 +13,7 @@ class ViewControler: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameList.append(Game(title: "Overwatch", genra: "First Person Shooter", rating: .E10, description: nil))
+        gameList.append(Game(title: "Overwatch", genra: "First Person Shooter", rating: .E10, description: "It's basicaly new age Team Fortress 2"))
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
