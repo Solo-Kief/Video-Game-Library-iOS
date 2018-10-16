@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C60415EB217621A4003E5BEA /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60415EA217621A4003E5BEA /* GameCell.swift */; };
+		C60415ED217629A5003E5BEA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60415EC217629A5003E5BEA /* Game.swift */; };
+		C60415EF217632F2003E5BEA /* GameShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60415EE217632F2003E5BEA /* GameShowViewController.swift */; };
 		C67F445C21750883009AF031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67F445B21750883009AF031 /* AppDelegate.swift */; };
 		C67F445E21750883009AF031 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67F445D21750883009AF031 /* ViewController.swift */; };
 		C67F446121750883009AF031 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C67F445F21750883009AF031 /* Main.storyboard */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C60415EA217621A4003E5BEA /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
+		C60415EC217629A5003E5BEA /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		C60415EE217632F2003E5BEA /* GameShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShowViewController.swift; sourceTree = "<group>"; };
 		C67F445821750883009AF031 /* Video Game Library iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Video Game Library iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67F445B21750883009AF031 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C67F445D21750883009AF031 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +41,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C60415F021763566003E5BEA /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				C60415EE217632F2003E5BEA /* GameShowViewController.swift */,
+				C60415EC217629A5003E5BEA /* Game.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		C60415F221763584003E5BEA /* Main Screen */ = {
+			isa = PBXGroup;
+			children = (
+				C67F445D21750883009AF031 /* ViewController.swift */,
+				C60415EA217621A4003E5BEA /* GameCell.swift */,
+				C67F445F21750883009AF031 /* Main.storyboard */,
+			);
+			path = "Main Screen";
+			sourceTree = "<group>";
+		};
 		C67F444F21750883009AF031 = {
 			isa = PBXGroup;
 			children = (
@@ -54,10 +79,10 @@
 		C67F445A21750883009AF031 /* Video Game Library iOS */ = {
 			isa = PBXGroup;
 			children = (
-				C67F445B21750883009AF031 /* AppDelegate.swift */,
-				C67F445D21750883009AF031 /* ViewController.swift */,
-				C67F445F21750883009AF031 /* Main.storyboard */,
+				C60415F221763584003E5BEA /* Main Screen */,
+				C60415F021763566003E5BEA /* Game */,
 				C67F446221750884009AF031 /* Assets.xcassets */,
+				C67F445B21750883009AF031 /* AppDelegate.swift */,
 				C67F446421750884009AF031 /* LaunchScreen.storyboard */,
 				C67F446721750884009AF031 /* Info.plist */,
 			);
@@ -135,8 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C60415EF217632F2003E5BEA /* GameShowViewController.swift in Sources */,
 				C67F445E21750883009AF031 /* ViewController.swift in Sources */,
 				C67F445C21750883009AF031 /* AppDelegate.swift in Sources */,
+				C60415EB217621A4003E5BEA /* GameCell.swift in Sources */,
+				C60415ED217629A5003E5BEA /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +311,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MA7ASKQ2T8;
 				INFOPLIST_FILE = "Video Game Library iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,7 +330,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MA7ASKQ2T8;
 				INFOPLIST_FILE = "Video Game Library iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
