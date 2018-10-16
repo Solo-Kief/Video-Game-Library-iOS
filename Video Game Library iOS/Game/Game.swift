@@ -16,25 +16,25 @@ class Game {
     var description: String?
     var dueDate: Date?
     
-    enum Rating {
-        case E
-        case E10
-        case T
-        case M
-        case AO
+    enum Rating: String {
+        case E = "E - Everyone"
+        case E10 = "E10 - Everyone 10 and Up"
+        case T = "T - Teen"
+        case M = "M - Mature"
+        case AO = "AO - Adult Only"
     }
     
-    enum Status {
-        case checkedIn
-        case checkedOut
+    enum Status: String {
+        case checkedIn = "Checked In"
+        case checkedOut = "Checked Out"
     }
     
-    init(title: String, genra: String, rating: Rating, description: String?, dueDate: Date?) {
+    init(title: String, genra: String, rating: Rating, description: String?) {
         self.title = title
         self.genra = genra
         self.rating = rating
         self.status = .checkedIn
         self.description = description
-        self.dueDate = dueDate
+        self.dueDate = nil
     }
 }

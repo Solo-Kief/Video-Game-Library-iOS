@@ -68,12 +68,13 @@
                                                     <rect key="frame" x="94" y="96" width="54" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="lYY-Gl-Gdd"/>
+                                                        <constraint firstAttribute="width" constant="54" id="nIE-e4-wqg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2To-wE-T8a">
+                                                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2To-wE-T8a">
                                                     <rect key="frame" x="156" y="95" width="211" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="Hpx-ms-3LJ"/>
@@ -147,6 +148,28 @@
                                             <outlet property="titleField" destination="Tqh-vA-hef" id="a0g-Rm-FXm"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="addGameCell" rowHeight="125" id="jVQ-PA-uHV">
+                                        <rect key="frame" x="0.0" y="153" width="375" height="125"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jVQ-PA-uHV" id="r9D-aa-hVR">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="124.66666666666667"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="16909-plus-sign-in-circle1" translatesAutoresizingMaskIntoConstraints="NO" id="GAV-Cp-Fui">
+                                                    <rect key="frame" x="135.33333333333334" y="10" width="104.66666666666666" height="104.66666666666667"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="GAV-Cp-Fui" secondAttribute="height" multiplier="1:1" id="wxQ-UG-xQy"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.0" green="0.87109375" blue="0.059193655434189439" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <constraints>
+                                                <constraint firstItem="GAV-Cp-Fui" firstAttribute="top" secondItem="r9D-aa-hVR" secondAttribute="top" constant="10" id="6xZ-5X-G3M"/>
+                                                <constraint firstAttribute="bottom" secondItem="GAV-Cp-Fui" secondAttribute="bottom" constant="10" id="Kfp-eb-i0s"/>
+                                                <constraint firstItem="GAV-Cp-Fui" firstAttribute="centerX" secondItem="r9D-aa-hVR" secondAttribute="centerX" id="MWQ-FH-dq4"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="P5n-fB-Whk"/>
@@ -172,7 +195,6 @@
         <!--Game Show View Controller-->
         <scene sceneID="oOR-vx-5eW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OAN-Dh-027" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="W6y-Lu-Yy1" customClass="GameShowViewController" customModule="Video_Game_Library_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NZC-Np-KSF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -243,10 +265,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ayR-b7-LNY">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayR-b7-LNY">
                                 <rect key="frame" x="8" y="542" width="359" height="194"/>
                                 <color key="backgroundColor" red="0.83148477979274615" green="0.83148477979274615" blue="0.83148477979274615" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <userDefinedRuntimeAttributes>
@@ -309,11 +331,13 @@
                         <viewLayoutGuide key="safeArea" id="WGu-9V-jJi"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OAN-Dh-027" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="941.60000000000002" y="133.74384236453201"/>
         </scene>
     </scenes>
     <resources>
+        <image name="16909-plus-sign-in-circle1" width="400" height="399"/>
         <image name="kisspng-question-mark-icon-question-mark-5a7214f2980a92.2259030715174259066228" width="900" height="920"/>
     </resources>
 </document>

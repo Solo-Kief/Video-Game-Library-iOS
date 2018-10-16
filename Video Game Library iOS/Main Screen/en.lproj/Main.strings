@@ -1,0 +1,36 @@
+
+/* Class = "UILabel"; text = "Rating:"; ObjectID = "2IQ-oP-aKo"; */
+"2IQ-oP-aKo.text" = "Rating:";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "5RK-qA-0ce"; */
+"5RK-qA-0ce.normalTitle" = "Edit";
+
+/* Class = "UILabel"; text = "Title:"; ObjectID = "CZn-CS-5kK"; */
+"CZn-CS-5kK.text" = "Title:";
+
+/* Class = "UILabel"; text = "Status"; ObjectID = "EK7-pI-kLb"; */
+"EK7-pI-kLb.text" = "Status";
+
+/* Class = "UILabel"; text = "Rating"; ObjectID = "EP3-IK-G1e"; */
+"EP3-IK-G1e.text" = "Rating";
+
+/* Class = "UILabel"; text = "Genre:"; ObjectID = "GHQ-az-4b2"; */
+"GHQ-az-4b2.text" = "Genre:";
+
+/* Class = "UILabel"; text = "Status:"; ObjectID = "Ltb-ce-hIA"; */
+"Ltb-ce-hIA.text" = "Status:";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ayR-b7-LNY"; */
+"ayR-b7-LNY.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "Genra"; ObjectID = "n77-ke-q9s"; */
+"n77-ke-q9s.text" = "Genra";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "uY4-oj-d9m"; */
+"uY4-oj-d9m.text" = "Description";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "x5Z-aW-HzT"; */
+"x5Z-aW-HzT.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Check Out"; ObjectID = "yCO-OK-Mnk"; */
+"yCO-OK-Mnk.normalTitle" = "Check Out";
