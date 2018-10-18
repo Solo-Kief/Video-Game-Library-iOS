@@ -10,7 +10,7 @@ import Foundation
 
 class Game {
     var title: String
-    var genra: String
+    var genre: String
     var rating: Rating
     var status: Status
     var description: String?
@@ -29,9 +29,9 @@ class Game {
         case checkedOut = "Checked Out"
     }
     
-    init(title: String, genra: String, rating: Rating, description: String?) {
+    init(title: String, genre: String, rating: Rating, description: String?) {
         self.title = title
-        self.genra = genra
+        self.genre = genre
         self.rating = rating
         self.status = .checkedIn
         self.description = description
