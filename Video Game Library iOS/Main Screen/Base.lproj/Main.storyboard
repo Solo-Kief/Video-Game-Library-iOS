@@ -577,6 +577,12 @@
                                     <action selector="createGame:" destination="un4-OP-Ldt" eventType="touchUpInside" id="yq5-86-nuQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="khR-qW-QHJ">
+                                <rect key="frame" x="117.66666666666669" y="44" width="140" height="200"/>
+                                <connections>
+                                    <action selector="cameraButtonTapped:" destination="un4-OP-Ldt" eventType="touchUpInside" id="rHP-kh-s0a"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -593,8 +599,10 @@
                             <constraint firstItem="8ih-Iq-Nx7" firstAttribute="trailing" secondItem="d34-pq-WMJ" secondAttribute="trailing" constant="8" id="SHX-Jn-hIH"/>
                             <constraint firstItem="F6e-4X-4rO" firstAttribute="top" secondItem="8ih-Iq-Nx7" secondAttribute="top" id="TRW-3R-hwU"/>
                             <constraint firstItem="Ufc-bn-oyF" firstAttribute="centerX" secondItem="iTM-wM-wGC" secondAttribute="centerX" id="Trs-9a-NND"/>
+                            <constraint firstItem="Ufc-bn-oyF" firstAttribute="trailing" secondItem="khR-qW-QHJ" secondAttribute="trailing" id="WaJ-MV-b2s"/>
                             <constraint firstItem="VIo-fI-teT" firstAttribute="top" secondItem="AHu-do-ILQ" secondAttribute="bottom" constant="8" id="XtI-X1-dv7"/>
                             <constraint firstItem="srl-kx-XeT" firstAttribute="top" secondItem="1he-9z-rgR" secondAttribute="bottom" constant="8" id="adR-98-Pw0"/>
+                            <constraint firstItem="Ufc-bn-oyF" firstAttribute="top" secondItem="khR-qW-QHJ" secondAttribute="top" id="dSg-CC-kkf"/>
                             <constraint firstItem="5ZT-hh-lrU" firstAttribute="leading" secondItem="8ih-Iq-Nx7" secondAttribute="leading" constant="8" id="dZB-cs-npt"/>
                             <constraint firstItem="RMs-VI-uII" firstAttribute="top" secondItem="3Zy-sp-Hhm" secondAttribute="bottom" constant="8" id="es7-ZD-qXL"/>
                             <constraint firstItem="Ufc-bn-oyF" firstAttribute="top" secondItem="8ih-Iq-Nx7" secondAttribute="top" id="fKJ-ce-rJ1"/>
@@ -604,6 +612,8 @@
                             <constraint firstItem="8ih-Iq-Nx7" firstAttribute="trailing" secondItem="1he-9z-rgR" secondAttribute="trailing" constant="8" id="lZm-lq-B15"/>
                             <constraint firstItem="5ZT-hh-lrU" firstAttribute="top" secondItem="d34-pq-WMJ" secondAttribute="bottom" constant="8" id="m2e-KZ-0QX"/>
                             <constraint firstItem="d34-pq-WMJ" firstAttribute="top" secondItem="srl-kx-XeT" secondAttribute="bottom" constant="8" id="n1S-qe-J2U"/>
+                            <constraint firstItem="Ufc-bn-oyF" firstAttribute="leading" secondItem="khR-qW-QHJ" secondAttribute="leading" id="oUP-xA-C9o"/>
+                            <constraint firstItem="Ufc-bn-oyF" firstAttribute="bottom" secondItem="khR-qW-QHJ" secondAttribute="bottom" id="oz6-gJ-3dy"/>
                             <constraint firstItem="VuL-KY-1lO" firstAttribute="centerX" secondItem="iTM-wM-wGC" secondAttribute="centerX" id="qCT-ac-hml"/>
                             <constraint firstItem="3Zy-sp-Hhm" firstAttribute="top" secondItem="VuL-KY-1lO" secondAttribute="bottom" constant="8" id="s7m-4u-0yh"/>
                             <constraint firstItem="srl-kx-XeT" firstAttribute="centerX" secondItem="iTM-wM-wGC" secondAttribute="centerX" id="u6E-Cq-miR"/>
@@ -627,7 +637,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hGl-RS-khh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="471"/>
+            <point key="canvasLocation" x="1016.8" y="470.68965517241384"/>
         </scene>
     </scenes>
     <resources>

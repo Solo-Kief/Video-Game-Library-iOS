@@ -253,10 +253,13 @@ class GameAddViewController: UIViewController {
     var defaultColor = UIColor()
     //Used by graphical functions later.
     
+    let imagePicker = UIImagePickerController() //Used by camera extension
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustElements() //Order of these two commands matters.
         hideKeyboardWhenTappedAround() //See these functions
+        imagePicker.delegate = self //Used by image picker.
         
         defaultColor = addGameButton.backgroundColor!
         
@@ -316,7 +319,7 @@ class GameAddViewController: UIViewController {
             return
         } //Adds game if it has a title, genre, and rating. Uses some included animation if requirements not met.
         
-        Game.gameList.append(Game(title: titleField.text!, genre: genreField.text!, rating: rating, description: descriptionField.text)) //Adds the game to the array.
+        Game.gameList.append(Game(title: titleLabel.text!, genre: genreField.text!, rating: rating, description: descriptionField.text!)) //Adds the game to the array.
         Game.refreshArray() //Refreshes the game array by saving and reloading the array.
         
         titleField.text = ""
@@ -353,7 +356,69 @@ class GameAddViewController: UIViewController {
         self.ratingControl.isHidden = false
         self.descriptionFieldToRatingControlConstraint.constant = 8
     }
-}
+    
+    @IBAction func cameraButtonTapped(_ sender: Any) {
+        let cameraAlertController = UIAlertController(title: "Box Cover", message: "Choose the box art image for your game.", preferredStyle: .actionSheet)
+        
+        //    let cameraAction = UIAlertAction(title: "Camera", style: .default){
+        //        _ in
+        //        self.openCamera()
+        //    }
+        
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) {
+            _ in
+            self.openGallery()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+        
+        //cameraAlertController.addAction(cameraAction)
+        cameraAlertController.addAction(galleryAction)
+        cameraAlertController.addAction(cancelAction)
+        
+        self.present(cameraAlertController, animated: true, completion: nil)
+    }
+} //Does the camera stuff. Don't ask how it works, I don't know yet.
+
+
+extension GameAddViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alertWarning = UIAlertController(title: "Error", message: "The camera cannot be accessed at this time.", preferredStyle: .actionSheet)
+            let closeAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            alertWarning.addAction(closeAction)
+            self.present(alertWarning, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallery() {
+        imagePicker.sourceType = .photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        // The info dictionary may contain multiple representations of the image. You want to use the original
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        // Set photoImageView to display the selected image
+        coverImageView.image = selectedImage
+        
+        // Dismiss the picker
+        dismiss(animated: true, completion: nil)
+    }
+} //I really don't know what this stuff does yet.
+
+///////
 
 extension UIViewController { //Primary recognizer that any ViewController can use.
     func hideKeyboardWhenTappedAround() {
