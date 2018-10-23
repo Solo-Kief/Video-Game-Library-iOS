@@ -185,6 +185,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="liveTableView" destination="ggl-17-0la" id="mVz-W5-rUa"/>
                         <segue destination="W6y-Lu-Yy1" kind="presentation" identifier="showDetails" modalTransitionStyle="flipHorizontal" id="cjq-xN-RBd"/>
                         <segue destination="un4-OP-Ldt" kind="presentation" identifier="addGame" modalTransitionStyle="flipHorizontal" id="FEV-rc-arb"/>
                     </connections>
@@ -321,6 +322,9 @@
                                         <integer key="value" value="15"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="editToggle:" destination="W6y-Lu-Yy1" eventType="touchUpInside" id="NdG-Cz-Ozh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7sI-6H-w9g">
                                 <rect key="frame" x="8" y="44" width="101.66666666666667" height="30"/>
@@ -335,7 +339,7 @@
                                     <action selector="goBack:" destination="W6y-Lu-Yy1" eventType="touchUpInside" id="ryS-yU-wsN"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayR-b7-LNY">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="ayR-b7-LNY">
                                 <rect key="frame" x="6" y="616" width="363" height="162"/>
                                 <color key="backgroundColor" red="0.83148477979274615" green="0.83148477979274615" blue="0.83148477979274615" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -346,10 +350,32 @@
                                         <integer key="value" value="15"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="W6y-Lu-Yy1" id="vJz-JQ-gJq"/>
+                                </connections>
                             </textView>
+                            <segmentedControl hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="Nq5-kB-f04">
+                                <rect key="frame" x="8" y="455" width="359" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Mpy-f9-DnE"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="E"/>
+                                    <segment title="E10"/>
+                                    <segment title="T"/>
+                                    <segment title="M"/>
+                                    <segment title="AO"/>
+                                </segments>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="pPq-hT-qnw" firstAttribute="centerX" secondItem="Nq5-kB-f04" secondAttribute="centerX" id="3c3-TH-BTc"/>
                             <constraint firstItem="pPq-hT-qnw" firstAttribute="leading" secondItem="WGu-9V-jJi" secondAttribute="leading" constant="8" id="4To-Nv-ZrL"/>
                             <constraint firstItem="yCO-OK-Mnk" firstAttribute="leading" secondItem="XCK-fW-Igo" secondAttribute="trailing" constant="8" id="7aM-Dv-o4j"/>
                             <constraint firstItem="XCK-fW-Igo" firstAttribute="leading" secondItem="5RK-qA-0ce" secondAttribute="trailing" constant="8" id="9sN-my-HKh"/>
@@ -380,12 +406,15 @@
                             <constraint firstItem="XI6-MA-kI4" firstAttribute="top" secondItem="n77-ke-q9s" secondAttribute="bottom" constant="8" id="gNh-vH-y2W"/>
                             <constraint firstItem="7sI-6H-w9g" firstAttribute="top" secondItem="WGu-9V-jJi" secondAttribute="top" id="gqH-Oi-pHu"/>
                             <constraint firstItem="nts-SE-11I" firstAttribute="top" secondItem="EK7-pI-kLb" secondAttribute="bottom" id="msO-pl-Mo0"/>
+                            <constraint firstItem="pPq-hT-qnw" firstAttribute="centerY" secondItem="Nq5-kB-f04" secondAttribute="centerY" id="nXZ-3g-GiX"/>
+                            <constraint firstItem="Nq5-kB-f04" firstAttribute="leading" secondItem="WGu-9V-jJi" secondAttribute="leading" constant="8" id="og7-HI-WTU"/>
                             <constraint firstItem="EK7-pI-kLb" firstAttribute="top" secondItem="pPq-hT-qnw" secondAttribute="bottom" constant="8" id="pFb-df-mdp"/>
                             <constraint firstItem="5RK-qA-0ce" firstAttribute="leading" secondItem="WGu-9V-jJi" secondAttribute="leading" constant="8" id="r4O-HD-zQp"/>
                             <constraint firstItem="TUP-Vw-7d2" firstAttribute="top" secondItem="x5Z-aW-HzT" secondAttribute="bottom" constant="8" id="rXc-Ww-dPA"/>
                             <constraint firstItem="uY4-oj-d9m" firstAttribute="top" secondItem="nts-SE-11I" secondAttribute="bottom" constant="8" id="sUa-1S-OH3"/>
                             <constraint firstItem="XI6-MA-kI4" firstAttribute="leading" secondItem="WGu-9V-jJi" secondAttribute="leading" constant="8" id="sy6-Il-Brz"/>
                             <constraint firstItem="XCK-fW-Igo" firstAttribute="top" secondItem="WGu-9V-jJi" secondAttribute="top" id="xeP-RB-Foy"/>
+                            <constraint firstItem="WGu-9V-jJi" firstAttribute="trailing" secondItem="Nq5-kB-f04" secondAttribute="trailing" constant="8" id="xxQ-Ks-gLM"/>
                             <constraint firstItem="WGu-9V-jJi" firstAttribute="trailing" secondItem="ayR-b7-LNY" secondAttribute="trailing" constant="6" id="xzK-6g-kda"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WGu-9V-jJi"/>
@@ -399,9 +428,13 @@
                         <outlet property="checkInOut" destination="yCO-OK-Mnk" id="cqd-Bj-SDu"/>
                         <outlet property="coverImageView" destination="XCK-fW-Igo" id="xxL-nZ-TnX"/>
                         <outlet property="descriptionField" destination="ayR-b7-LNY" id="DEu-w3-OM1"/>
+                        <outlet property="descriptionTopToStatusFieldConstraint" destination="sUa-1S-OH3" id="Oh8-3P-oRB"/>
+                        <outlet property="editButton" destination="5RK-qA-0ce" id="heN-8S-gOx"/>
                         <outlet property="genreField" destination="XI6-MA-kI4" id="KNh-yW-dwa"/>
                         <outlet property="ratingField" destination="pPq-hT-qnw" id="Z71-7S-gGl"/>
+                        <outlet property="ratingSelector" destination="Nq5-kB-f04" id="ERy-fQ-Hwk"/>
                         <outlet property="statusField" destination="nts-SE-11I" id="RvF-rq-d95"/>
+                        <outlet property="statusLabel" destination="EK7-pI-kLb" id="8Kk-gx-RTB"/>
                         <outlet property="titleField" destination="TUP-Vw-7d2" id="Li8-1M-p7c"/>
                     </connections>
                 </viewController>

@@ -7,56 +7,97 @@
 import UIKit
 
 class ViewControler: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var gameList: [Game] = []
-    var selectedGame: Game?
+    var selectedGame: Int?
+    
+    @IBOutlet var liveTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameList.append(Game(title: "Overwatch", genre: "First Person Shooter", rating: .T, description: "It's basicaly new age Team Fortress 2"))
-        gameList.append(Game(title: "Team Fortress 2", genre: "First Person Shooter", rating: .M, description: "The internet's favorite cluster-fuck."))
+        Game.loadArray()
+
+//        Game.gameList.append(Game(title: "Test", genre: "Genra", rating: .E, description: nil))
+//        Game.saveArray()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        liveTableView.reloadData()
+    } //Forces the table to reflect changes made elsewhere.
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? GameShowViewController {
-            destination.gameToShow = selectedGame
+            destination.gameSelector = selectedGame
         }
     } //Allows me to do prep before segueing.
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == gameList.count {
+        if indexPath.row == Game.gameList.count {
             self.performSegue(withIdentifier: "addGame", sender: self)
             return
         }
         
-        selectedGame = gameList[indexPath.row]
+        selectedGame = indexPath.row
         self.performSegue(withIdentifier: "showDetails", sender: self)
         tableView.deselectRow(at: indexPath, animated: false)
     } //Tells the segue what game it is when a row is selected.
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gameList.count + 1
+        return Game.gameList.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == gameList.count {
+        if indexPath.row == Game.gameList.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addGameCell")
             return cell!
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "gameCell") as! GameCell
-        cell.titleField.text = gameList[indexPath.row].title
-        cell.genreField.text = gameList[indexPath.row].genre
-        cell.ratingField.text = gameList[indexPath.row].rating.rawValue
-        cell.statusField.text = gameList[indexPath.row].status.rawValue
+        cell.titleField.text = Game.gameList[indexPath.row].title
+        cell.genreField.text = Game.gameList[indexPath.row].genre
+        cell.ratingField.text = Game.gameList[indexPath.row].rating.rawValue
         
-        //Delete me
-        if cell.titleField.text == "Overwatch" {
-            cell.coverImageView.image = #imageLiteral(resourceName: "Boxart_overwatch")
-        } else if cell.titleField.text == "Team Fortress 2" {
-            cell.coverImageView.image = #imageLiteral(resourceName: "Tf2_standalonebox")
+        if Game.gameList[indexPath.row].status == .checkedOut {
+            let format = DateFormatter()
+            format.dateFormat = "MM/dd/yy"
+            
+            cell.statusField.text = "\(Game.gameList[indexPath.row].status.rawValue) - Due: \(format.string(from: Game.gameList[indexPath.row].dueDate!))"
+        } else {
+            cell.statusField.text = Game.gameList[indexPath.row].status.rawValue
         }
-        //
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
+            Game.gameList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            Game.refreshArray()
+        }
+        
+        let title = Game.gameList[indexPath.row].status == .checkedIn ? "Check Out" : "Check In"
+        
+        let checkOutOrInAction = UITableViewRowAction(style: .normal, title: title) { _, _ in
+            if Game.gameList[indexPath.row].status == .checkedIn {
+                Game.gameList[indexPath.row].status = .checkedOut
+                Game.gameList[indexPath.row].dueDate = Date().addingTimeInterval(1209600)
+            } else {
+                Game.gameList[indexPath.row].status = .checkedIn
+                Game.gameList[indexPath.row].dueDate = nil
+            }
+            
+            tableView.reloadRows(at: [indexPath], with: .fade)
+            Game.refreshArray()
+        }
+        
+        return [deleteAction, checkOutOrInAction]
+    }
+    
+//    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
+//            Game.gameList.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+//        }
+//        
+//        return UISwipeActionsConfiguration(actions: [deleteAction])
+//    }
 }

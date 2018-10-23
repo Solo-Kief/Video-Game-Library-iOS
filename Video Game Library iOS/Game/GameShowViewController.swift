@@ -8,48 +8,63 @@
 
 import UIKit
 
-class GameShowViewController: UIViewController {
-    var gameToShow: Game?
-    //MUST BE MODIFIED TO ACCESS MAIN LIST WHEN PERSISTANCE IS ADDED.
+class GameShowViewController: UIViewController, UITextViewDelegate {
+    var gameSelector: Int?
+    var changeWasMade = false
     
     @IBOutlet var titleField: UITextField!
     @IBOutlet var genreField: UITextField!
     @IBOutlet var ratingField: UITextField!
+    @IBOutlet var ratingSelector: UISegmentedControl!
+    @IBOutlet var statusLabel: UILabel!
     @IBOutlet var statusField: UITextField!
     @IBOutlet var descriptionField: UITextView!
     @IBOutlet var checkInOut: UIButton!
     @IBOutlet var coverImageView: UIImageView!
+    @IBOutlet var editButton: UIButton!
+    @IBOutlet var descriptionTopToStatusFieldConstraint: NSLayoutConstraint!
     
     let format = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        format.dateStyle = .medium
+        format.dateStyle = .long
         
+        titleField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
+        genreField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
+        ratingSelector.addTarget(self, action: #selector(changeMade), for: .valueChanged)
+        statusField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
+        //See textViewDidChange
+        
+        ratingSelector.layer.cornerRadius = 20.0
+        ratingSelector.layer.borderColor = editButton.tintColor.cgColor
+        ratingSelector.layer.borderWidth = 1.0
+        ratingSelector.layer.masksToBounds = true
         coverImageView.layer.borderColor = UIColor.gray.cgColor
         coverImageView.layer.borderWidth = 3
         coverImageView.layer.cornerRadius = 5
         coverImageView.layer.masksToBounds = true
         
-        //Delete Me
-        if gameToShow?.title == "Overwatch" {
-            coverImageView.image = #imageLiteral(resourceName: "Boxart_overwatch")
-        } else if gameToShow?.title == "Team Fortress 2" {
-            coverImageView.image = #imageLiteral(resourceName: "Tf2_standalonebox")
-        }
-        //
-        
-        titleField.text = gameToShow?.title
-        genreField.text = gameToShow?.genre
-        ratingField.text = gameToShow?.rating.rawValue
-        if gameToShow?.status == Game.Status.checkedOut {
-            statusField.text = "\(gameToShow?.status.rawValue ?? "") - Due: \(format.string(from: (gameToShow?.dueDate)!))"
+        titleField.text = Game.gameList[gameSelector!].title
+        genreField.text = Game.gameList[gameSelector!].genre
+        ratingField.text = Game.gameList[gameSelector!].rating.rawValue
+        if Game.gameList[gameSelector!].status == .checkedOut {
+            statusField.text = "\(Game.gameList[gameSelector!].status.rawValue) - Due: \(format.string(from: (Game.gameList[gameSelector!].dueDate)!))"
             checkInOut.setTitle("Check In", for: .normal)
         } else {
-            statusField.text = gameToShow?.status.rawValue
+            statusField.text = Game.gameList[gameSelector!].status.rawValue
         }
-        descriptionField.text = gameToShow?.description
+        descriptionField.text = Game.gameList[gameSelector!].Description
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        changeMade()
+    } //Function granted to textView Delegates.
+      //Called if the textView expereinces user initiated changes
+    
+    @objc func changeMade() { //Used by text fields to notify if a change was made.
+        changeWasMade = true
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -57,25 +72,114 @@ class GameShowViewController: UIViewController {
     }
     
     @IBAction func checkInOut(_ sender: UIButton) {
-        //MUST BE UPDATED WHEN PERSISTANCE IS ADDED
-        if gameToShow?.status == .checkedIn {
-            gameToShow?.status = .checkedOut
-            gameToShow?.dueDate = Date().addingTimeInterval(1209600)
+        if Game.gameList[gameSelector!].status == .checkedIn {
+            Game.gameList[gameSelector!].status = .checkedOut
+            Game.gameList[gameSelector!].dueDate = Date().addingTimeInterval(1209600)
             sender.setTitle("Check In", for: .normal)
-            statusField.text = "\(gameToShow?.status.rawValue ?? "") - Due:  \(format.string(from: (gameToShow?.dueDate)!))"
+            statusField.text = "\(Game.gameList[gameSelector!].status.rawValue) - Due:  \(format.string(from: (Game.gameList[gameSelector!].dueDate)!))"
         } else {
-            gameToShow?.status = .checkedIn
-            gameToShow?.dueDate = nil
+            Game.gameList[gameSelector!].status = .checkedIn
+            Game.gameList[gameSelector!].dueDate = nil
             sender.setTitle("Check Out", for: .normal)
-            statusField.text = gameToShow?.status.rawValue
+            statusField.text = Game.gameList[gameSelector!].status.rawValue
+        }
+        
+        Game.refreshArray()
+    }
+    
+    @IBAction func editToggle(_ sender: UIButton) {
+        if !titleField.isUserInteractionEnabled {
+            editButton.setTitle("End Editing", for: .normal)
+            titleField.isUserInteractionEnabled = true
+            genreField.isUserInteractionEnabled = true
+            ratingField.isHidden = true
+            ratingSelector.isHidden = false
+            ratingSelector.isUserInteractionEnabled = true
+            switch Game.gameList[gameSelector!].rating {
+            case .E:
+                ratingSelector.selectedSegmentIndex = 0
+            case .E10:
+                ratingSelector.selectedSegmentIndex = 1
+            case .T:
+                ratingSelector.selectedSegmentIndex = 2
+            case .M:
+                ratingSelector.selectedSegmentIndex = 3
+            case .AO:
+                ratingSelector.selectedSegmentIndex = 4
+            }
+            statusLabel.isHidden = true
+            statusField.isHidden = true
+            descriptionField.isEditable = true
+            descriptionTopToStatusFieldConstraint.constant = -66
+        } else {
+            if changeWasMade {
+                let alert = UIAlertController(title: "Keep Changes?", message: "You have made changes to the current game. Would you like to keep them?", preferredStyle: .alert)
+
+                let cancelAction = UIAlertAction(title: "Discard", style: .cancel, handler: {action in
+                    self.titleField.text = Game.gameList[self.gameSelector!].title
+                    self.genreField.text = Game.gameList[self.gameSelector!].genre
+                    self.ratingField.text = Game.gameList[self.gameSelector!].rating.rawValue
+                    if Game.gameList[self.gameSelector!].status == .checkedOut {
+                        self.statusField.text = "\(Game.gameList[self.gameSelector!].status.rawValue) - Due: \(self.format.string(from: (Game.gameList[self.gameSelector!].dueDate)!))"
+                        self.checkInOut.setTitle("Check In", for: .normal)
+                    } else {
+                        self.statusField.text = Game.gameList[self.gameSelector!].status.rawValue
+                    }
+                    self.descriptionField.text = Game.gameList[self.gameSelector!].Description
+                }) //Cancel action refreshes the games data to original state.
+
+                let changeAction = UIAlertAction(title: "Keep", style: .destructive, handler: {action in
+                    Game.gameList[self.gameSelector!].title = self.titleField.text!
+                    Game.gameList[self.gameSelector!].genre = self.genreField.text!
+                    switch self.ratingSelector.selectedSegmentIndex {
+                    case 0:
+                        Game.gameList[self.gameSelector!].rating = .E
+                    case 1:
+                        Game.gameList[self.gameSelector!].rating = .E10
+                    case 2:
+                        Game.gameList[self.gameSelector!].rating = .T
+                    case 3:
+                        Game.gameList[self.gameSelector!].rating = .M
+                    case 4:
+                        Game.gameList[self.gameSelector!].rating = .AO
+                    default:
+                        Game.gameList[self.gameSelector!].rating = .E
+                    }
+                    Game.gameList[self.gameSelector!].Description = self.descriptionField.text
+                    
+                    self.ratingField.text = Game.gameList[self.gameSelector!].rating.rawValue
+                    Game.refreshArray()
+                })
+                
+                alert.addAction(cancelAction)
+                alert.addAction(changeAction)
+                
+                self.present(alert, animated: true)
+            }
+            
+            //Code to reset screen to original state.
+            editButton.setTitle("Edit", for: .normal)
+            titleField.isUserInteractionEnabled = false
+            genreField.isUserInteractionEnabled = false
+            ratingField.isHidden = false
+            ratingSelector.isHidden = true
+            ratingSelector.isUserInteractionEnabled = false
+            statusLabel.isHidden = false
+            statusField.isHidden = false
+            descriptionField.isEditable = false
+            descriptionTopToStatusFieldConstraint.constant = 8
+            changeWasMade = false
+            //Update Game List
+            Game.refreshArray()
         }
     }
 }
 
-///////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 class GameAddViewController: UIViewController {
-    var gameToShow: Game?
+    var gameToShow: Int?
     
     @IBOutlet var titleField: UITextField!
     @IBOutlet var titleLabel: UILabel!
@@ -153,7 +257,8 @@ class GameAddViewController: UIViewController {
             return
         }
         
-        Game(title: titleField.text!, genre: genreField.text!, rating: rating, description: descriptionField.text)
+        Game.gameList.append(Game(title: titleField.text!, genre: genreField.text!, rating: rating, description: descriptionField.text))
+        Game.refreshArray()
         
         titleField.text = ""
         genreField.text = ""
@@ -169,7 +274,7 @@ class GameAddViewController: UIViewController {
     }
     
     @objc func redistributeElements() { //Moves screen elements in order to bring the description
-        self.titleLabel.isHidden = true //back into view when the keyboard is brough up.
+        self.titleLabel.isHidden = true //back into view when the keyboard is brought up.
         self.titleField.isHidden = true
         self.genreLabel.isHidden = true
         self.genreField.isHidden = true
