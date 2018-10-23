@@ -428,14 +428,19 @@
                         <outlet property="checkInOut" destination="yCO-OK-Mnk" id="cqd-Bj-SDu"/>
                         <outlet property="coverImageView" destination="XCK-fW-Igo" id="xxL-nZ-TnX"/>
                         <outlet property="descriptionField" destination="ayR-b7-LNY" id="DEu-w3-OM1"/>
+                        <outlet property="descriptionFieldBottomConstraint" destination="b5z-i6-R5Y" id="X1u-dG-UZb"/>
+                        <outlet property="descriptionLabel" destination="uY4-oj-d9m" id="SxN-iR-e4P"/>
                         <outlet property="descriptionTopToStatusFieldConstraint" destination="sUa-1S-OH3" id="Oh8-3P-oRB"/>
                         <outlet property="editButton" destination="5RK-qA-0ce" id="heN-8S-gOx"/>
                         <outlet property="genreField" destination="XI6-MA-kI4" id="KNh-yW-dwa"/>
+                        <outlet property="genreLabel" destination="n77-ke-q9s" id="oJy-aY-KFk"/>
                         <outlet property="ratingField" destination="pPq-hT-qnw" id="Z71-7S-gGl"/>
+                        <outlet property="ratingLabel" destination="EP3-IK-G1e" id="rfa-UZ-ekS"/>
                         <outlet property="ratingSelector" destination="Nq5-kB-f04" id="ERy-fQ-Hwk"/>
                         <outlet property="statusField" destination="nts-SE-11I" id="RvF-rq-d95"/>
                         <outlet property="statusLabel" destination="EK7-pI-kLb" id="8Kk-gx-RTB"/>
                         <outlet property="titleField" destination="TUP-Vw-7d2" id="Li8-1M-p7c"/>
+                        <outlet property="titleLabel" destination="x5Z-aW-HzT" id="Vyp-vy-AJt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OAN-Dh-027" userLabel="First Responder" sceneMemberID="firstResponder"/>

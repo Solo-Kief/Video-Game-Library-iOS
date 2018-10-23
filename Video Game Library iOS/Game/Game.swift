@@ -1,15 +1,13 @@
-//
 //  Game.swift
 //  Video Game Library iOS
 //
 //  Created by Solomon Kieffer on 10/16/18.
 //  Copyright © 2018 Phoenix Development. All rights reserved.
-//
 
 import Foundation
 
 class Game: NSObject, NSCoding {
-    static var gameList: [Game] = []
+    static var gameList: [Game] = [] //Used by anything that needs access to game data.
     var title: String
     var genre: String
     var rating: Rating
@@ -38,6 +36,8 @@ class Game: NSObject, NSCoding {
         self.Description = description
         self.dueDate = nil
     }
+    
+    //Everything below here concerns persistance.
     
     required convenience init?(coder aDecoder: NSCoder) {
         let title = aDecoder.decodeObject(forKey: "title") as! String

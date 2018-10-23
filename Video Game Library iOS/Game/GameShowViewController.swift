@@ -12,30 +12,38 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
     var gameSelector: Int?
     var changeWasMade = false
     
+    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var titleField: UITextField!
+    @IBOutlet var genreLabel: UILabel!
     @IBOutlet var genreField: UITextField!
+    @IBOutlet var ratingLabel: UILabel!
     @IBOutlet var ratingField: UITextField!
     @IBOutlet var ratingSelector: UISegmentedControl!
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var statusField: UITextField!
+    @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var descriptionField: UITextView!
     @IBOutlet var checkInOut: UIButton!
     @IBOutlet var coverImageView: UIImageView!
     @IBOutlet var editButton: UIButton!
     @IBOutlet var descriptionTopToStatusFieldConstraint: NSLayoutConstraint!
+    @IBOutlet var descriptionFieldBottomConstraint: NSLayoutConstraint!
+    //Access to nearly every single object on the scrnee.
     
     let format = DateFormatter()
+    //Used when outputting thendate.
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        format.dateStyle = .long
+        adjustElements() //See bottom class.
+        hideKeyboardWhenTappedAround() //See bottom class.
+        format.dateStyle = .long //Format for the date.
         
         titleField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
         genreField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
         ratingSelector.addTarget(self, action: #selector(changeMade), for: .valueChanged)
         statusField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
-        //See textViewDidChange
+        //See textViewDidChange()
         
         ratingSelector.layer.cornerRadius = 20.0
         ratingSelector.layer.borderColor = editButton.tintColor.cgColor
@@ -45,6 +53,7 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
         coverImageView.layer.borderWidth = 3
         coverImageView.layer.cornerRadius = 5
         coverImageView.layer.masksToBounds = true
+        //Extra UI customizations.
         
         titleField.text = Game.gameList[gameSelector!].title
         genreField.text = Game.gameList[gameSelector!].genre
@@ -56,6 +65,7 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
             statusField.text = Game.gameList[gameSelector!].status.rawValue
         }
         descriptionField.text = Game.gameList[gameSelector!].Description
+        //Puts the data in the text fields.
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -65,11 +75,11 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
     
     @objc func changeMade() { //Used by text fields to notify if a change was made.
         changeWasMade = true
-    }
+    } //Used by the end editing warning.
     
     @IBAction func goBack(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
+    } //It's what the back button does.
     
     @IBAction func checkInOut(_ sender: UIButton) {
         if Game.gameList[gameSelector!].status == .checkedIn {
@@ -85,7 +95,7 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
         }
         
         Game.refreshArray()
-    }
+    } //Pretty self explanitory.
     
     @IBAction func editToggle(_ sender: UIButton) {
         if !titleField.isUserInteractionEnabled {
@@ -149,7 +159,7 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
                     
                     self.ratingField.text = Game.gameList[self.gameSelector!].rating.rawValue
                     Game.refreshArray()
-                })
+                }) //Updates the necisary game data from the edited text fields.
                 
                 alert.addAction(cancelAction)
                 alert.addAction(changeAction)
@@ -169,18 +179,65 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
             descriptionField.isEditable = false
             descriptionTopToStatusFieldConstraint.constant = 8
             changeWasMade = false
-            //Update Game List
             Game.refreshArray()
         }
+    } //Ok, so this one actually does a lot. If the app isn't in editing mode, the 'if' part of this statement will do the
+      //necisary changes to make users be able to edit games. The 'else' part will say, if it is alreay in edit mode, it'll
+      //put the app back in it's original state and IF a change was made, it'll bring up an alert asking if they want to
+      //keep changes made.
+    
+    @objc func redistributeElements() { //See Bottom of GameAddView Controller
+        if descriptionField.isEditable {
+            titleLabel.isHidden = true
+            titleField.isHidden = true
+            genreLabel.isHidden = true
+            genreField.isHidden = true
+            ratingLabel.isHidden = true
+            ratingSelector.isHidden = true
+            editButton.isHidden = true
+            descriptionTopToStatusFieldConstraint.constant = -320
+            descriptionFieldBottomConstraint.constant = 304
+            self.descriptionField.becomeFirstResponder()
+        }
+    }
+    
+    @objc func resetElements() { //See Bottom of GameAddView Controller
+        titleLabel.isHidden = false
+        titleField.isHidden = false
+        genreLabel.isHidden = false
+        genreField.isHidden = false
+        ratingLabel.isHidden = false
+        ratingSelector.isHidden = false
+        editButton.isHidden = false //Prevents leaving edit mode while elements are misaligned. Easier than trying to compensate for two different scenarios. In short: I'm a cop-out.
+        descriptionTopToStatusFieldConstraint.constant = -66
+        descriptionFieldBottomConstraint.constant = 0
     }
 }
+
+//This class also uses UIViewController extension at bottom.
+
+//Copy of GameAddViewController extenstion at bottom.
+extension GameShowViewController {
+    override func dismissKeyboard() {
+        resetElements()
+        super.dismissKeyboard()
+    }
+    
+    func adjustElements() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GameAddViewController.redistributeElements))
+        tap.cancelsTouchesInView = false
+        descriptionField.addGestureRecognizer(tap)
+    }
+}
+
+//Graphical glitches and UI Missalignment can occur if someone hits the description field very
+//quickly after hitting the end edit button. Unsure of how to fix.
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 class GameAddViewController: UIViewController {
-    var gameToShow: Int?
-    
     @IBOutlet var titleField: UITextField!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var genreField: UITextField!
@@ -194,11 +251,12 @@ class GameAddViewController: UIViewController {
     @IBOutlet var descriptionFieldToRatingControlConstraint: NSLayoutConstraint!
     
     var defaultColor = UIColor()
+    //Used by graphical functions later.
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        adjustElements()
-        hideKeyboardWhenTappedAround()
+        adjustElements() //Order of these two commands matters.
+        hideKeyboardWhenTappedAround() //See these functions
         
         defaultColor = addGameButton.backgroundColor!
         
@@ -210,11 +268,12 @@ class GameAddViewController: UIViewController {
         coverImageView.layer.borderWidth = 3
         coverImageView.layer.cornerRadius = 5
         coverImageView.layer.masksToBounds = true
+        //Graphical customizations
     }
     
     @IBAction func goBack(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
+    } //Does what is says it does.
     
     @IBAction func createGame(_ sender: Any) {
         let rating: Game.Rating
@@ -231,7 +290,7 @@ class GameAddViewController: UIViewController {
             rating = .AO
         default:
             rating = .E
-        }
+        } //Uses the rating selector to set the game rating.
         
         guard titleField.text != "" && genreField.text != "", ratingControl.selectedSegmentIndex != -1 else {
             if titleField.text == "" {
@@ -255,15 +314,16 @@ class GameAddViewController: UIViewController {
             timer.fireDate = Date().addingTimeInterval(3)
             
             return
-        }
+        } //Adds game if it has a title, genre, and rating. Uses some included animation if requirements not met.
         
-        Game.gameList.append(Game(title: titleField.text!, genre: genreField.text!, rating: rating, description: descriptionField.text))
-        Game.refreshArray()
+        Game.gameList.append(Game(title: titleField.text!, genre: genreField.text!, rating: rating, description: descriptionField.text)) //Adds the game to the array.
+        Game.refreshArray() //Refreshes the game array by saving and reloading the array.
         
         titleField.text = ""
         genreField.text = ""
         descriptionField.text = ""
         ratingControl.selectedSegmentIndex = -1
+        //Resets the fields to empty.
     }
     
     @objc func restoreSubmitButton() {
@@ -271,10 +331,10 @@ class GameAddViewController: UIViewController {
             self.addGameButton.setTitle("Add Game", for: .normal)
             self.addGameButton.backgroundColor = self.defaultColor
             })
-    }
+    } //Used to restore the submit button to original state.
     
-    @objc func redistributeElements() { //Moves screen elements in order to bring the description
-        self.titleLabel.isHidden = true //back into view when the keyboard is brought up.
+    @objc func redistributeElements() { //Moves screen elements in order to bring the description text
+        self.titleLabel.isHidden = true //field back into view when the keyboard is brought up.
         self.titleField.isHidden = true
         self.genreLabel.isHidden = true
         self.genreField.isHidden = true
@@ -305,7 +365,7 @@ extension UIViewController { //Primary recognizer that any ViewController can us
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-}
+} //Adding the hideKeyboardWhenTappedAround() function will cause the keyboard to resign when tapped off of.
 
 extension GameAddViewController {
     override func dismissKeyboard() { //This class overrides this function in order to allow both
@@ -318,4 +378,5 @@ extension GameAddViewController {
         tap.cancelsTouchesInView = false
         descriptionField.addGestureRecognizer(tap)
     } //Attached to the description field in order to target the field and not happen any other time.
-}
+} //This extension essintially layers another tap recognizer on top of the one from the UIViewController extnesion
+  //to allow the description to recognize taps, and move itself back and forth when it is being edited.

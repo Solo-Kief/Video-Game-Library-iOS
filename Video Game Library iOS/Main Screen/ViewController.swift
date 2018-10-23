@@ -42,7 +42,7 @@ class ViewControler: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Game.gameList.count + 1
-    }
+    } //Gives the tableView the row count.
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == Game.gameList.count {
@@ -65,7 +65,7 @@ class ViewControler: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
         
         return cell
-    }
+    } //Builds the cells for each row.
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
@@ -84,13 +84,11 @@ class ViewControler: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 Game.gameList[indexPath.row].status = .checkedIn
                 Game.gameList[indexPath.row].dueDate = nil
             }
-            
             tableView.reloadRows(at: [indexPath], with: .fade)
             Game.refreshArray()
         }
-        
         return [deleteAction, checkOutOrInAction]
-    }
+    } //Adds the swipe actions for each row.
     
 //    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
