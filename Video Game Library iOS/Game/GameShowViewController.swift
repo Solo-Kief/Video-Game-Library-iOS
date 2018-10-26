@@ -401,7 +401,7 @@ class GameAddViewController: UIViewController {
             return
         } //Adds game if it has a title, genre, and rating. Uses some included animation if requirements not met.
         
-        Game.gameList.append(Game(title: titleLabel.text!, genre: genreField.text!, rating: rating, description: descriptionField.text!, coverArt: coverImageView.image!.pngData())) //Adds the game to the array.
+        Game.gameList.append(Game(title: titleField.text!, genre: genreField.text!, rating: rating, description: descriptionField.text!, coverArt: coverImageView.image!.pngData())) //Adds the game to the array.
         Game.refreshArray() //Refreshes the game array by saving and reloading the array.
         
         titleField.text = ""
