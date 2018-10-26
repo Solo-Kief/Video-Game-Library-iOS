@@ -372,6 +372,14 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </segmentedControl>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uED-zz-yhD">
+                                <rect key="frame" x="117" y="44" width="140" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="cameraButtonTapped:" destination="un4-OP-Ldt" eventType="touchUpInside" id="98g-0L-QyW"/>
+                                    <action selector="cameraButtonTapped:" destination="W6y-Lu-Yy1" eventType="touchUpInside" id="hkF-jN-B8u"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -434,6 +442,7 @@
                         <outlet property="editButton" destination="5RK-qA-0ce" id="heN-8S-gOx"/>
                         <outlet property="genreField" destination="XI6-MA-kI4" id="KNh-yW-dwa"/>
                         <outlet property="genreLabel" destination="n77-ke-q9s" id="oJy-aY-KFk"/>
+                        <outlet property="imageButton" destination="uED-zz-yhD" id="ect-6N-bF8"/>
                         <outlet property="ratingField" destination="pPq-hT-qnw" id="Z71-7S-gGl"/>
                         <outlet property="ratingLabel" destination="EP3-IK-G1e" id="rfa-UZ-ekS"/>
                         <outlet property="ratingSelector" destination="Nq5-kB-f04" id="ERy-fQ-Hwk"/>

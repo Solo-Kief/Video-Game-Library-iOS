@@ -28,16 +28,21 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var editButton: UIButton!
     @IBOutlet var descriptionTopToStatusFieldConstraint: NSLayoutConstraint!
     @IBOutlet var descriptionFieldBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var imageButton: UIButton!
     //Access to nearly every single object on the scrnee.
     
     let format = DateFormatter()
-    //Used when outputting thendate.
+    //Used when outputting the date.
+    
+    let imagePicker = UIImagePickerController() //Used by camera extension
     
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustElements() //See bottom class.
         hideKeyboardWhenTappedAround() //See bottom class.
         format.dateStyle = .long //Format for the date.
+        
+        imagePicker.delegate = self //Used by image picker.
         
         titleField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
         genreField.addTarget(self, action: #selector(changeMade), for: .editingChanged)
@@ -124,6 +129,7 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
             statusLabel.isHidden = true
             statusField.isHidden = true
             descriptionField.isEditable = true
+            imageButton.isUserInteractionEnabled = true
             descriptionTopToStatusFieldConstraint.constant = -66
         } else {
             if changeWasMade {
@@ -140,6 +146,12 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
                         self.statusField.text = Game.gameList[self.gameSelector!].status.rawValue
                     }
                     self.descriptionField.text = Game.gameList[self.gameSelector!].Description
+                    if let pulledImage = Game.gameList[self.gameSelector!].coverArt {
+                        self.coverImageView.image = UIImage(data: pulledImage)
+                    } else {
+                        self.coverImageView.image = #imageLiteral(resourceName: "kisspng-question-mark-icon-question-mark-5a7214f2980a92.2259030715174259066228")
+                    }
+                    
                 }) //Cancel action refreshes the games data to original state.
 
                 let changeAction = UIAlertAction(title: "Keep", style: .destructive, handler: {action in
@@ -160,8 +172,11 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
                         Game.gameList[self.gameSelector!].rating = .E
                     }
                     Game.gameList[self.gameSelector!].Description = self.descriptionField.text
+                    if self.coverImageView.image != #imageLiteral(resourceName: "kisspng-question-mark-icon-question-mark-5a7214f2980a92.2259030715174259066228") {
+                        Game.gameList[self.gameSelector!].coverArt = self.coverImageView.image?.pngData()
+                    }
+                    self.ratingField.text = Game.gameList[self.gameSelector!].rating.rawValue //Updates the rating text.
                     
-                    self.ratingField.text = Game.gameList[self.gameSelector!].rating.rawValue
                     Game.refreshArray()
                 }) //Updates the necisary game data from the edited text fields.
                 
@@ -181,6 +196,7 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
             statusLabel.isHidden = false
             statusField.isHidden = false
             descriptionField.isEditable = false
+            imageButton.isUserInteractionEnabled = false
             descriptionTopToStatusFieldConstraint.constant = 8
             changeWasMade = false
             Game.refreshArray()
@@ -218,7 +234,67 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
             descriptionFieldBottomConstraint.constant = 0
         }
     }
-}
+    
+    @IBAction func cameraButtonTapped(_ sender: Any) {
+        let cameraAlertController = UIAlertController(title: "Box Cover", message: "Choose the box art image for your game.", preferredStyle: .actionSheet)
+        
+        //    let cameraAction = UIAlertAction(title: "Camera", style: .default){
+        //        _ in
+        //        self.openCamera()
+        //    }
+        
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) {
+            _ in
+            self.openGallery()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+        
+        //cameraAlertController.addAction(cameraAction)
+        cameraAlertController.addAction(galleryAction)
+        cameraAlertController.addAction(cancelAction)
+        
+        self.present(cameraAlertController, animated: true, completion: nil)
+    }
+} //Does the camera stuff. Don't ask how it works, I don't know yet.
+
+extension GameShowViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alertWarning = UIAlertController(title: "Error", message: "The camera cannot be accessed at this time.", preferredStyle: .actionSheet)
+            let closeAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            alertWarning.addAction(closeAction)
+            self.present(alertWarning, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallery() {
+        imagePicker.sourceType = .photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        // The info dictionary may contain multiple representations of the image. You want to use the original
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        // Set photoImageView to display the selected image
+        coverImageView.image = selectedImage
+        changeMade()
+        
+        // Dismiss the picker
+        dismiss(animated: true, completion: nil)
+    }
+} //I really don't know what this stuff does yet
 
 //This class also uses UIViewController extension at bottom.
 
