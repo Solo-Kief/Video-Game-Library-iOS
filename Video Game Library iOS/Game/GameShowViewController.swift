@@ -65,6 +65,10 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
             statusField.text = Game.gameList[gameSelector!].status.rawValue
         }
         descriptionField.text = Game.gameList[gameSelector!].Description
+        
+        if let pulledImage = Game.gameList[gameSelector!].coverArt {
+            coverImageView.image = UIImage(data: pulledImage)
+        }
         //Puts the data in the text fields.
     }
     
@@ -202,15 +206,17 @@ class GameShowViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func resetElements() { //See Bottom of GameAddView Controller
-        titleLabel.isHidden = false
-        titleField.isHidden = false
-        genreLabel.isHidden = false
-        genreField.isHidden = false
-        ratingLabel.isHidden = false
-        ratingSelector.isHidden = false
-        editButton.isHidden = false //Prevents leaving edit mode while elements are misaligned. Easier than trying to compensate for two different scenarios. In short: I'm a cop-out.
-        descriptionTopToStatusFieldConstraint.constant = -66
-        descriptionFieldBottomConstraint.constant = 0
+        if descriptionField.isEditable {
+            titleLabel.isHidden = false
+            titleField.isHidden = false
+            genreLabel.isHidden = false
+            genreField.isHidden = false
+            ratingLabel.isHidden = false
+            ratingSelector.isHidden = false
+            editButton.isHidden = false //Prevents leaving edit mode while elements are misaligned. Easier than trying to compensate for two different scenarios. In short: I'm a cop-out.
+            descriptionTopToStatusFieldConstraint.constant = -66
+            descriptionFieldBottomConstraint.constant = 0
+        }
     }
 }
 
@@ -319,13 +325,14 @@ class GameAddViewController: UIViewController {
             return
         } //Adds game if it has a title, genre, and rating. Uses some included animation if requirements not met.
         
-        Game.gameList.append(Game(title: titleLabel.text!, genre: genreField.text!, rating: rating, description: descriptionField.text!)) //Adds the game to the array.
+        Game.gameList.append(Game(title: titleLabel.text!, genre: genreField.text!, rating: rating, description: descriptionField.text!, coverArt: coverImageView.image!.pngData())) //Adds the game to the array.
         Game.refreshArray() //Refreshes the game array by saving and reloading the array.
         
         titleField.text = ""
         genreField.text = ""
         descriptionField.text = ""
         ratingControl.selectedSegmentIndex = -1
+        coverImageView.image = #imageLiteral(resourceName: "kisspng-question-mark-icon-question-mark-5a7214f2980a92.2259030715174259066228")
         //Resets the fields to empty.
     }
     

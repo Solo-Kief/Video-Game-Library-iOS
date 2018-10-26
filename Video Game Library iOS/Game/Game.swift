@@ -14,6 +14,7 @@ class Game: NSObject, NSCoding {
     var status: Status
     var Description: String?
     var dueDate: Date?
+    var coverArt: Data?
     
     enum Rating: String {
         case E = "E - Everyone"
@@ -28,13 +29,14 @@ class Game: NSObject, NSCoding {
         case checkedOut = "Checked Out"
     }
     
-    init(title: String, genre: String, rating: Rating, description: String?) {
+    init(title: String, genre: String, rating: Rating, description: String?, coverArt: Data?) {
         self.title = title
         self.genre = genre
         self.rating = rating
         self.status = .checkedIn
         self.Description = description
         self.dueDate = nil
+        self.coverArt = coverArt
     }
     
     //Everything below here concerns persistance.
@@ -46,13 +48,15 @@ class Game: NSObject, NSCoding {
         let status = aDecoder.decodeObject(forKey: "status") as! String
         let description = aDecoder.decodeObject(forKey: "description") as? String
         let dueDate = aDecoder.decodeObject(forKey: "dueDate") as? Date
+        let coverArt = aDecoder.decodeObject(forKey: "coverArt") as? Data
         
         let sendRating = Game.Rating(rawValue: rating)
         let sendStatus = Game.Status(rawValue: status)
         
-        self.init(title: title, genre: genre, rating: sendRating!, description: description)
+        self.init(title: title, genre: genre, rating: sendRating!, description: description, coverArt: coverArt)
         self.status = sendStatus!
         self.dueDate = dueDate
+        self.coverArt = coverArt
     }
     
     func encode(with aCoder: NSCoder) {
@@ -62,6 +66,7 @@ class Game: NSObject, NSCoding {
         aCoder.encode(status.rawValue , forKey: "status")
         aCoder.encode(Description , forKey: "description")
         aCoder.encode(dueDate , forKey: "dueDate")
+        aCoder.encode(coverArt, forKey: "coverArt")
     }
     
     static func saveArray() {

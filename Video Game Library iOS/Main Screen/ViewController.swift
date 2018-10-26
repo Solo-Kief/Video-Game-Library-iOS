@@ -64,6 +64,10 @@ class ViewControler: UIViewController, UITableViewDelegate, UITableViewDataSourc
             cell.statusField.text = Game.gameList[indexPath.row].status.rawValue
         }
         
+        if let pulledImage = Game.gameList[indexPath.row].coverArt {
+            cell.coverImageView.image = UIImage(data: pulledImage)
+        }
+        
         return cell
     } //Builds the cells for each row.
     
